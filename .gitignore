@@ -1,0 +1,67 @@
+# Yocto Build Directories
+build-*/
+build/
+
+# Yocto Layers (cloned repositories)
+layers/
+meta-*/
+
+# Downloads and Sources
+downloads/
+sources/
+
+# Shared State Cache
+sstate-cache/
+sstate/
+
+# Build Logs
+logs/
+*.log
+
+# Temporary files
+tmp/
+*.tmp
+*.swp
+*.swo
+*~
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# IDE files
+.vscode/
+.idea/
+*.sublime-*
+
+# Docker volumes data (but keep docker-compose.yml and Dockerfile)
+# Keep docker-compose.yml and Dockerfile in repo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Build artifacts
+*.rpm
+*.deb
+*.ipk
+*.tar.gz
+*.tar.bz2
+*.tar.xz
+
+# Local configuration overrides (if any)
+local.conf.local
+bblayers.conf.local
+
+# Environment files
+.env
+.env.local
+
