@@ -31,12 +31,12 @@ else
     echo ">>> meta-raspberrypi already exists, skipping..."
 fi
 
-# Meta-amlogic (for S905x3) - optional, may require authentication
-if [ ! -d "meta-amlogic" ]; then
-    echo ">>> Cloning meta-amlogic..."
-    git clone -b kirkstone --depth 1 https://github.com/BayLibre/meta-amlogic.git || echo ">>> WARNING: Failed to clone meta-amlogic (may require authentication or different URL)"
+# Meta-meson (for S905x3 - G12A/G12B/SM1 support)
+if [ ! -d "meta-meson" ]; then
+    echo ">>> Cloning meta-meson..."
+    git clone -b kirkstone --depth 1 https://github.com/superna9999/meta-meson.git || echo ">>> WARNING: Failed to clone meta-meson"
 else
-    echo ">>> meta-amlogic already exists, skipping..."
+    echo ">>> meta-meson already exists, skipping..."
 fi
 
 echo ">>> All layers fetched successfully!"
