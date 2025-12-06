@@ -3,7 +3,7 @@ set -e
 
 if [ $# -lt 2 ]; then
     echo "Usage: $0 <platform> <profile>"
-    echo "  platform: s905x3 or rpi4"
+    echo "  platform: s905x3, rpi4, or rpi0w"
     echo "  profile: developer or production"
     exit 1
 fi
