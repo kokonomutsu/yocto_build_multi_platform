@@ -31,10 +31,10 @@ else
     echo ">>> meta-raspberrypi already exists, skipping..."
 fi
 
-# Meta-amlogic (for S905x3)
+# Meta-amlogic (for S905x3) - optional, may require authentication
 if [ ! -d "meta-amlogic" ]; then
     echo ">>> Cloning meta-amlogic..."
-    git clone -b kirkstone --depth 1 https://github.com/BayLibre/meta-amlogic.git
+    git clone -b kirkstone --depth 1 https://github.com/BayLibre/meta-amlogic.git || echo ">>> WARNING: Failed to clone meta-amlogic (may require authentication or different URL)"
 else
     echo ">>> meta-amlogic already exists, skipping..."
 fi
