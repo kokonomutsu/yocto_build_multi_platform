@@ -91,7 +91,7 @@ HOST_UID=1000 HOST_GID=1000 docker compose run --rm yocto bash -c "scripts/build
 - Git shallow clones (`BB_GIT_SHALLOW = "1"`)
 - GDB fix (removed or downgraded to avoid linking errors)
 - Package classes: RPM
-- SSD support (optional, falls back to local directories)
+- Local directories for downloads and sstate cache (permission-safe)
 
 ## 📝 Notes
 
@@ -99,6 +99,7 @@ HOST_UID=1000 HOST_GID=1000 docker compose run --rm yocto bash -c "scripts/build
 - Use `docker compose` (not `docker-compose`)
 - Build logs are saved in `logs/` directory
 - Images are located in `build-*/tmp/deploy/images/`
+- Downloads and sstate cache use local directories (`/home/yocto/downloads`, `/home/yocto/sstate-cache`)
 
 ## 🔧 Troubleshooting
 
