@@ -46,6 +46,12 @@ else
     echo ">>> WARNING: poky layer not found, skipping oe-init-build-env"
 fi
 
+# Setup S905x3 machine config if needed
+if [ "$PLATFORM" = "s905x3" ]; then
+    echo ">>> Setting up S905x3 machine config..."
+    /home/yocto/scripts/setup_s905x3_machine.sh || echo ">>> WARNING: Failed to setup S905x3 machine config"
+fi
+
 # Use default TMPDIR for system stability
 # (RAM disk has been disabled to prevent system crashes)
 
