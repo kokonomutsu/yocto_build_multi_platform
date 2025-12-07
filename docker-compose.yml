@@ -13,6 +13,7 @@ services:
       - ./layers:/home/yocto/layers
       - ./build-s905x3:/home/yocto/build-s905x3
       - ./build-rpi4:/home/yocto/build-rpi4
+      - ./build-rpi0w:/home/yocto/build-rpi0w
       - ./downloads:/home/yocto/downloads
       - ./sstate-cache:/home/yocto/sstate-cache
       - ./logs:/home/yocto/logs
