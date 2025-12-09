@@ -1,9 +1,29 @@
 #!/bin/bash
+# Fetch Yocto layers - supports both repo tool and git clone methods
 set -e
 
-BASE_DIR=/home/yocto/layers
-mkdir -p $BASE_DIR
-cd $BASE_DIR
+BASE_DIR=/home/yocto
+LAYERS_DIR=${BASE_DIR}/layers
+
+# Check if using repo tool
+if [ -f "${BASE_DIR}/.repo/manifest.xml" ] || [ -f ".repo/manifest.xml" ]; then
+    echo ">>> Detected repo tool - using repo sync..."
+    if [ -f "${BASE_DIR}/.repo/manifest.xml" ]; then
+        cd ${BASE_DIR}
+    else
+        cd /home/picopiece/yocto_multi_platform
+    fi
+    repo sync -j16
+    echo ">>> Layers fetched using repo tool!"
+    exit 0
+fi
+
+# Fallback to git clone method
+echo ">>> Using git clone method (repo tool not detected)..."
+echo ">>> To use repo tool, run: scripts/fetch_layers_repo.sh"
+
+mkdir -p $LAYERS_DIR
+cd $LAYERS_DIR
 
 echo ">>> Fetching Yocto layers..."
 
