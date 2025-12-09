@@ -28,9 +28,10 @@ if [ ! -f ".repo/manifest.xml" ]; then
     
     if [ -n "${MANIFEST_PATH}" ] && [ -f "${MANIFEST_PATH}" ]; then
         echo ">>> Using manifest: ${MANIFEST_PATH}"
+        # Use standard repo tool URL (more compatible than codelinaro)
         repo init -m ${MANIFEST_PATH} \
-            --repo-url=https://git.codelinaro.org/clo/tools/repo.git \
-            --repo-branch=qc-stable
+            --repo-url=https://storage.googleapis.com/git-repo-downloads/repo \
+            --repo-branch=stable
     else
         echo ">>> ERROR: Manifest file ${MANIFEST} not found!"
         echo ">>> Available manifests:"
