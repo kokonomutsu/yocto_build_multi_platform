@@ -50,9 +50,21 @@ docker compose build
 
 ### 3. Fetch Yocto Layers
 
+**Option A: Using Repo Tool (Recommended for Production/Team)**
+```bash
+HOST_UID=1000 HOST_GID=1000 docker compose run --rm yocto bash -c "scripts/init_repo.sh && scripts/fetch_layers.sh"
+```
+
+**Option B: Using Git Clone (Traditional - Good for Development)**
 ```bash
 HOST_UID=1000 HOST_GID=1000 docker compose run --rm yocto bash -c "scripts/fetch_layers.sh"
 ```
+
+> **Note**: The `fetch_layers.sh` script automatically detects which method to use:
+> - If `.repo/manifest.xml` exists → Uses repo tool (`repo sync`)
+> - If not → Uses git clone method
+> 
+> See [Layer Management Methods](#layer-management-methods) section below for details.
 
 ### 4. Setup Build Environment
 
@@ -117,4 +129,53 @@ HOST_UID=1000 HOST_GID=1000 docker compose run --rm yocto bash -c "scripts/nuke-
 ```bash
 /home/picopiece/check_env.sh
 ```
+
+## Layer Management Methods
+
+This project supports **two layer management methods** with automatic detection:
+
+### 1. Git Clone (Traditional Method)
+- **Use case**: Development, quick testing, single platform builds
+- **How it works**: Clones each layer directly from Git repositories
+- **Command**: `scripts/fetch_layers.sh` (when `.repo` doesn't exist)
+- **Pros**: 
+  - Simple setup, no configuration needed
+  - Fast for quick builds
+  - Good for development and testing
+- **Cons**: 
+  - No version pinning (always uses latest branch)
+  - Manual layer management
+  - Not ideal for reproducible builds
+
+### 2. Repo Tool (Advanced Method)
+- **Use case**: Production builds, team collaboration, reproducible builds
+- **How it works**: Manages all layers through manifest files (`.xml`)
+- **Command**: `scripts/init_repo.sh && scripts/fetch_layers.sh`
+- **Pros**: 
+  - Version pinning via manifest files
+  - Reproducible builds across team
+  - Easy to share configurations
+  - Better for multi-platform management
+- **Cons**: 
+  - Requires initial setup with manifest
+  - Slightly more complex
+
+### Hybrid Mechanism
+
+The `fetch_layers.sh` script automatically detects which method to use:
+
+```bash
+# Auto-detection logic:
+if [ -f ".repo/manifest.xml" ]; then
+    # Use repo tool (repo sync)
+else
+    # Use git clone method
+fi
+```
+
+**You can switch between methods at any time:**
+- To use repo tool: Run `scripts/init_repo.sh` first
+- To use git clone: Remove `.repo` directory: `rm -rf .repo`
+
+For detailed comparison, see [REPO_TOOL_COMPARISON.md](REPO_TOOL_COMPARISON.md).
 
