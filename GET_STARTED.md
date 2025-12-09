@@ -33,8 +33,12 @@ docker compose build
 # 3. Prepare
 ./scripts/host_prepare.sh
 
-# 4. Fetch layers
-HOST_UID=1000 HOST_GID=1000 docker compose run --rm yocto bash -c "scripts/fetch_layers.sh"
+# 4. Fetch layers (supports both repo tool and git clone)
+# Option A: Using repo tool (recommended)
+HOST_UID=1000 HOST_GID=1000 docker compose run --rm yocto bash -c "scripts/init_repo.sh && scripts/fetch_layers.sh"
+
+# Option B: Using git clone (legacy, auto-detected if repo tool not initialized)
+# HOST_UID=1000 HOST_GID=1000 docker compose run --rm yocto bash -c "scripts/fetch_layers.sh"
 
 # 5. Setup (chọn 1 trong 2)
 # Cho RPi4:
