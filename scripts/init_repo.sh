@@ -49,20 +49,35 @@ fi
 # Initialize repo
 if [ -n "${MANIFEST_PATH}" ] && [ -f "${MANIFEST_PATH}" ]; then
     echo ">>> Initializing with manifest: ${MANIFEST_PATH}"
-    # For local manifest, we need to use -u with file:// URL or absolute path
-    # Use file:// protocol for local manifest
-    ABSOLUTE_MANIFEST_PATH=$(readlink -f ${MANIFEST_PATH} 2>/dev/null || echo ${MANIFEST_PATH})
-    if [ -f "${ABSOLUTE_MANIFEST_PATH}" ]; then
-        # Use file:// URL for local manifest
-        MANIFEST_URL="file://${ABSOLUTE_MANIFEST_PATH}"
-        echo ">>> Using manifest URL: ${MANIFEST_URL}"
-        repo init -u ${MANIFEST_URL} -m ${MANIFEST} \
-            --repo-url=https://gerrit.googlesource.com/git-repo \
-            --repo-branch=stable
-    else
-        echo ">>> ERROR: Cannot resolve absolute path for manifest: ${MANIFEST_PATH}"
-        exit 1
-    fi
+    
+    # Repo tool approach: Use local_manifests (standard way for local manifests)
+    # Step 1: Initialize repo with a dummy/minimal manifest URL
+    # We'll override with local_manifests
+    echo ">>> Initializing repo tool..."
+    
+    # Create a minimal default.xml first (repo init requires -u)
+    # Use a dummy git repo or create minimal manifest repo
+    # Actually, simpler: init without -u, then use local_manifests
+    
+    # Alternative: Create a git repo for manifest temporarily
+    TEMP_MANIFEST_REPO=$(mktemp -d)
+    cd ${TEMP_MANIFEST_REPO}
+    git init -q
+    cp ${MANIFEST_PATH} default.xml
+    git add default.xml
+    git commit -q -m "Initial manifest"
+    MANIFEST_REPO_URL="file://${TEMP_MANIFEST_REPO}"
+    
+    cd ${BASE_DIR}
+    echo ">>> Initializing with temporary manifest repository..."
+    repo init -u ${MANIFEST_REPO_URL} -m default.xml \
+        --repo-url=https://gerrit.googlesource.com/git-repo \
+        --repo-branch=stable
+    
+    # Cleanup temp repo
+    rm -rf ${TEMP_MANIFEST_REPO}
+    
+    echo ">>> Repo initialized successfully!"
 else
     echo ">>> ERROR: Manifest file ${MANIFEST} not found!"
     echo ">>> Searched in:"
