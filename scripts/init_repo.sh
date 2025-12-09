@@ -60,12 +60,18 @@ if [ -n "${MANIFEST_PATH}" ] && [ -f "${MANIFEST_PATH}" ]; then
     # Actually, simpler: init without -u, then use local_manifests
     
     # Alternative: Create a git repo for manifest temporarily
+    # Resolve absolute path first
+    ABSOLUTE_MANIFEST_PATH=$(readlink -f ${MANIFEST_PATH} 2>/dev/null || realpath ${MANIFEST_PATH} 2>/dev/null || echo ${MANIFEST_PATH})
+    if [ ! -f "${ABSOLUTE_MANIFEST_PATH}" ]; then
+        ABSOLUTE_MANIFEST_PATH=${MANIFEST_PATH}
+    fi
+    
     TEMP_MANIFEST_REPO=$(mktemp -d)
     cd ${TEMP_MANIFEST_REPO}
     git init -q
-    cp ${MANIFEST_PATH} default.xml
+    cp ${ABSOLUTE_MANIFEST_PATH} default.xml
     git add default.xml
-    git commit -q -m "Initial manifest"
+    git commit -q -m "Initial manifest" --author="Repo Tool <repo@localhost>"
     MANIFEST_REPO_URL="file://${TEMP_MANIFEST_REPO}"
     
     cd ${BASE_DIR}
