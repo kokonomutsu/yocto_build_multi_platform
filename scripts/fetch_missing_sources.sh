@@ -3,7 +3,7 @@ set -e
 
 if [ $# -lt 1 ]; then
     echo "Usage: $0 <platform>"
-    echo "  platform: s905x3, rpi4, or rpi0w"
+    echo "  platform: s905x3, rpi4, rpi0w, or rk3588"
     exit 1
 fi
 

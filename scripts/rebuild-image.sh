@@ -3,7 +3,7 @@ set -e
 
 if [ $# -lt 3 ]; then
     echo "Usage: $0 <platform> <profile> <image>"
-    echo "  platform: s905x3, rpi4, or rpi0w"
+    echo "  platform: s905x3, rpi4, rpi0w, or rk3588"
     echo "  profile: developer or production"
     echo "  image: core-image-minimal, core-image-base, etc."
     exit 1

@@ -39,5 +39,21 @@ else
     echo ">>> meta-meson already exists, skipping..."
 fi
 
+# Meta-rockchip (for RK3588/NanoPC-T6)
+if [ ! -d "meta-rockchip" ]; then
+    echo ">>> Cloning meta-rockchip..."
+    git clone -b kirkstone --depth 1 https://git.yoctoproject.org/git/meta-rockchip || echo ">>> WARNING: Failed to clone meta-rockchip"
+else
+    echo ">>> meta-rockchip already exists, skipping..."
+fi
+
+# Meta-arm (ARM architecture support - recommended for RK3588)
+if [ ! -d "meta-arm" ]; then
+    echo ">>> Cloning meta-arm..."
+    git clone -b kirkstone --depth 1 https://git.yoctoproject.org/git/meta-arm || echo ">>> WARNING: Failed to clone meta-arm"
+else
+    echo ">>> meta-arm already exists, skipping..."
+fi
+
 echo ">>> All layers fetched successfully!"
 
