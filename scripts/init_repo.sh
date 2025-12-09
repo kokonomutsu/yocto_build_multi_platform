@@ -12,6 +12,13 @@ echo ">>> Manifest: ${MANIFEST}"
 
 cd ${BASE_DIR}
 
+# Ensure git config is set (required for repo tool)
+if ! git config --global user.name > /dev/null 2>&1; then
+    echo ">>> Setting git config globally..."
+    git config --global user.name "Yocto Builder" || true
+    git config --global user.email "yocto@localhost" || true
+fi
+
 # Check if repo tool is installed
 if ! command -v repo &> /dev/null; then
     echo ">>> ERROR: repo tool is not installed!"

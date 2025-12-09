@@ -37,3 +37,7 @@ ENV PATH="/home/yocto/bin:${PATH}"
 # Switch to yocto user
 USER yocto
 
+# Set git config globally for repo tool (required)
+RUN git config --global user.name "Yocto Builder" && \
+    git config --global user.email "yocto@localhost"
+
