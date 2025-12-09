@@ -49,11 +49,20 @@ fi
 # Initialize repo
 if [ -n "${MANIFEST_PATH}" ] && [ -f "${MANIFEST_PATH}" ]; then
     echo ">>> Initializing with manifest: ${MANIFEST_PATH}"
-    # Use standard repo tool (no --repo-url, let it use default)
-    # Or use AOSP repo tool git repository
-    repo init -m ${MANIFEST_PATH} \
-        --repo-url=https://gerrit.googlesource.com/git-repo \
-        --repo-branch=stable
+    # For local manifest, we need to use -u with file:// URL or absolute path
+    # Use file:// protocol for local manifest
+    ABSOLUTE_MANIFEST_PATH=$(readlink -f ${MANIFEST_PATH} 2>/dev/null || echo ${MANIFEST_PATH})
+    if [ -f "${ABSOLUTE_MANIFEST_PATH}" ]; then
+        # Use file:// URL for local manifest
+        MANIFEST_URL="file://${ABSOLUTE_MANIFEST_PATH}"
+        echo ">>> Using manifest URL: ${MANIFEST_URL}"
+        repo init -u ${MANIFEST_URL} -m ${MANIFEST} \
+            --repo-url=https://gerrit.googlesource.com/git-repo \
+            --repo-branch=stable
+    else
+        echo ">>> ERROR: Cannot resolve absolute path for manifest: ${MANIFEST_PATH}"
+        exit 1
+    fi
 else
     echo ">>> ERROR: Manifest file ${MANIFEST} not found!"
     echo ">>> Searched in:"
