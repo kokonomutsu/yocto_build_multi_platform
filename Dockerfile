@@ -22,8 +22,17 @@ RUN groupadd -g 1000 yocto && \
     useradd -u 1000 -g 1000 -m -s /bin/bash yocto && \
     echo "yocto ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
+# Install repo tool (as root, before switching to yocto user)
+RUN mkdir -p /home/yocto/bin && \
+    curl -o /home/yocto/bin/repo https://storage.googleapis.com/git-repo-downloads/repo && \
+    chmod a+x /home/yocto/bin/repo && \
+    chown -R yocto:yocto /home/yocto/bin
+
 # Set working directory
 WORKDIR /home/yocto
+
+# Add repo tool to PATH
+ENV PATH="/home/yocto/bin:${PATH}"
 
 # Switch to yocto user
 USER yocto
