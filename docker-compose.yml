@@ -20,6 +20,7 @@ services:
       - ./logs:/home/yocto/logs
       - ./scripts:/home/yocto/scripts
       - ./products:/home/yocto/products
+      - ./manifests:/home/yocto/manifests
       - /mnt/ssd/downloads-s905x3:/mnt/ssd/downloads-s905x3:rw
       - /mnt/ssd/downloads-rpi4:/mnt/ssd/downloads-rpi4:rw
       - /mnt/ssd/sstate-cache-s905x3:/mnt/ssd/sstate-cache-s905x3:rw

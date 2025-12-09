@@ -16,16 +16,27 @@ cd ${BASE_DIR}
 if [ ! -f ".repo/manifest.xml" ]; then
     echo ">>> Initializing repo..."
     
-    # Determine repo URL (use local manifests if available)
+    # Find manifest file (check multiple locations)
+    MANIFEST_PATH=""
     if [ -f "manifests/${MANIFEST}" ]; then
-        echo ">>> Using local manifest: manifests/${MANIFEST}"
-        repo init -m manifests/${MANIFEST} \
+        MANIFEST_PATH="manifests/${MANIFEST}"
+    elif [ -f "/home/picopiece/yocto_multi_platform/manifests/${MANIFEST}" ]; then
+        MANIFEST_PATH="/home/picopiece/yocto_multi_platform/manifests/${MANIFEST}"
+    elif [ -f "${BASE_DIR}/manifests/${MANIFEST}" ]; then
+        MANIFEST_PATH="${BASE_DIR}/manifests/${MANIFEST}"
+    fi
+    
+    if [ -n "${MANIFEST_PATH}" ] && [ -f "${MANIFEST_PATH}" ]; then
+        echo ">>> Using manifest: ${MANIFEST_PATH}"
+        repo init -m ${MANIFEST_PATH} \
             --repo-url=https://git.codelinaro.org/clo/tools/repo.git \
             --repo-branch=qc-stable
     else
-        echo ">>> ERROR: Manifest file manifests/${MANIFEST} not found!"
+        echo ">>> ERROR: Manifest file ${MANIFEST} not found!"
         echo ">>> Available manifests:"
-        ls -1 manifests/*.xml 2>/dev/null || echo "  No manifests found"
+        ls -1 manifests/*.xml 2>/dev/null || \
+        ls -1 /home/picopiece/yocto_multi_platform/manifests/*.xml 2>/dev/null || \
+        echo "  No manifests found"
         exit 1
     fi
 else
