@@ -69,9 +69,12 @@ if [ -n "${MANIFEST_PATH}" ] && [ -f "${MANIFEST_PATH}" ]; then
     TEMP_MANIFEST_REPO=$(mktemp -d)
     cd ${TEMP_MANIFEST_REPO}
     git init -q
+    # Set git config for commit (required)
+    git config user.name "Repo Tool" || true
+    git config user.email "repo@localhost" || true
     cp ${ABSOLUTE_MANIFEST_PATH} default.xml
     git add default.xml
-    git commit -q -m "Initial manifest" --author="Repo Tool <repo@localhost>"
+    git commit -q -m "Initial manifest"
     MANIFEST_REPO_URL="file://${TEMP_MANIFEST_REPO}"
     
     cd ${BASE_DIR}
