@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+  <!-- Remote definitions -->
+  <remote name="yocto" fetch="https://git.yoctoproject.org/git/"/>
+  <remote name="openembedded" fetch="https://github.com/openembedded/"/>
+  <remote name="github" fetch="https://github.com/"/>
+  <remote name="superna9999" fetch="https://github.com/superna9999/"/>
+  
+  <!-- Core Yocto layers (using master/latest) -->
+  <project name="poky" remote="yocto" path="layers/poky" revision="master"/>
+  <project name="meta-openembedded" remote="openembedded" path="layers/meta-openembedded" revision="master"/>
+  
+  <!-- Platform-specific layers (using master/latest) -->
+  <project name="meta-raspberrypi" remote="github" path="layers/meta-raspberrypi" revision="master"/>
+  <project name="meta-meson" remote="superna9999" path="layers/meta-meson" revision="master"/>
+  <project name="meta-rockchip" remote="yocto" path="layers/meta-rockchip" revision="master"/>
+  <project name="meta-arm" remote="yocto" path="layers/meta-arm" revision="master"/>
+</manifest>
+

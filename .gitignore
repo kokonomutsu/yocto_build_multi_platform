@@ -65,3 +65,4 @@ bblayers.conf.local
 .env
 .env.local
 
+.repo/
