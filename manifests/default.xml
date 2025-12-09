@@ -11,7 +11,7 @@
   <project name="meta-openembedded" remote="openembedded" path="layers/meta-openembedded" revision="kirkstone"/>
   
   <!-- Platform-specific layers -->
-  <project name="meta-raspberrypi" remote="github" path="layers/meta-raspberrypi" revision="kirkstone"/>
+  <project name="agherzan/meta-raspberrypi" remote="github" path="layers/meta-raspberrypi" revision="kirkstone"/>
   <project name="meta-meson" remote="superna9999" path="layers/meta-meson" revision="kirkstone"/>
   <project name="meta-rockchip" remote="yocto" path="layers/meta-rockchip" revision="kirkstone"/>
   <project name="meta-arm" remote="yocto" path="layers/meta-arm" revision="kirkstone"/>

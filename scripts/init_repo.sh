@@ -82,15 +82,35 @@ if [ -n "${MANIFEST_PATH}" ] && [ -f "${MANIFEST_PATH}" ]; then
     cp ${ABSOLUTE_MANIFEST_PATH} default.xml
     git add default.xml
     git commit -q -m "Initial manifest"
-    MANIFEST_REPO_URL="file://${TEMP_MANIFEST_REPO}"
+    
+    # Ensure temp repo is properly initialized
+    git branch -M master 2>/dev/null || true
+    
+    # Use absolute path for file:// URL
+    ABSOLUTE_TEMP_REPO=$(pwd)
+    MANIFEST_REPO_URL="file://${ABSOLUTE_TEMP_REPO}"
     
     cd ${BASE_DIR}
     echo ">>> Initializing with temporary manifest repository..."
+    echo ">>> Manifest repo: ${MANIFEST_REPO_URL}"
+    
+    # Clean up existing layers if they have unsupported git state
+    echo ">>> Cleaning up existing layers with unsupported git state..."
+    for layer_dir in layers/*/; do
+        if [ -d "${layer_dir}/.git" ]; then
+            # Check if git state is valid
+            if ! git -C "${layer_dir}" rev-parse HEAD >/dev/null 2>&1; then
+                echo ">>> Removing invalid git state: ${layer_dir}"
+                rm -rf "${layer_dir}"
+            fi
+        fi
+    done
+    
     repo init -u ${MANIFEST_REPO_URL} -m default.xml \
         --repo-url=https://gerrit.googlesource.com/git-repo \
         --repo-branch=stable
     
-    # Cleanup temp repo
+    # Cleanup temp repo after successful init
     rm -rf ${TEMP_MANIFEST_REPO}
     
     echo ">>> Repo initialized successfully!"
