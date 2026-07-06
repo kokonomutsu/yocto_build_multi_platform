@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  NanoPC-T6 navonz_v1 — pinned layer revisions (verified snapshot).
+  Layers are synced into layers-pin/ (not layers/) so kirkstone builds stay untouched.
+-->
+<manifest>
+  <remote name="yocto" fetch="https://git.yoctoproject.org/git/"/>
+  <remote name="openembedded" fetch="https://git.openembedded.org/"/>
+
+  <project name="poky" remote="yocto" path="layers-pin/poky"
+           revision="1dec53b350d7d2edcc880f640b1cb2fd31ff7f0b"/>
+  <project name="meta-openembedded" remote="openembedded" path="layers-pin/meta-openembedded"
+           revision="fd6a9a2b30fab61c3761b42110b37512756f3525"/>
+  <project name="meta-arm" remote="yocto" path="layers-pin/meta-arm"
+           revision="a3a2c49b2149606f314b2ee0aeba7d6becd12545"/>
+  <project name="meta-rockchip" remote="yocto" path="layers-pin/meta-rockchip"
+           revision="4fdc16878efb6e1af933d65da64bfb1a4dff1735"/>
+</manifest>

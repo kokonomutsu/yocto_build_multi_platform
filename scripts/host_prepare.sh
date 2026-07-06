@@ -5,11 +5,13 @@ echo ">>> Preparing host environment..."
 
 # Create necessary directories
 echo ">>> Creating directories..."
-mkdir -p build-s905x3 build-rpi4 build-rpi0w build-rk3588 layers downloads sstate-cache logs
+mkdir -p build-s905x3 build-rpi4 build-rpi0w build-rk3588 build-rk3588-navonz_v1 \
+    layers layers-pin downloads sstate-cache logs
 
 # Set permissions
 echo ">>> Setting permissions..."
-chmod -R 755 build-s905x3 build-rpi4 build-rpi0w build-rk3588 layers downloads sstate-cache logs
+chmod -R 755 build-s905x3 build-rpi4 build-rpi0w build-rk3588 build-rk3588-navonz_v1 \
+    layers layers-pin downloads sstate-cache logs
 
 # RAM disk has been disabled for system stability
 # Using default TMPDIR instead

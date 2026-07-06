@@ -31,24 +31,49 @@ The NanoPC-T6 is a powerful ARM64 single board computer featuring:
 
 ## 🚀 Quick Start
 
-### 1. Fetch Layers
+RK3588 hỗ trợ hai **profile** build:
+
+| Profile | Layers | Build dir | Mô tả |
+|---------|--------|-----------|-------|
+| `developer` | `layers/` (kirkstone) + custom `products/rk3588` | `build-rk3588/` | Custom, linh hoạt |
+| `navonz_v1` | `layers-pin/` (commit pin đã verify) | `build-rk3588-navonz_v1/` | Snapshot gốc yocto-nanopc-t6 |
+
+### Profile: developer (custom kirkstone)
+
+#### 1. Fetch Layers
 ```bash
 ./scripts/fetch_layers.sh
 ```
 
-This will clone:
-- `meta-rockchip` (from git.yoctoproject.org)
-- `meta-arm` (from git.yoctoproject.org)
-
-### 2. Setup Build Environment
+#### 2. Setup + Build
 ```bash
-HOST_UID=1000 HOST_GID=1000 docker-compose run --rm yocto bash -c "scripts/setup_env.sh rk3588 developer"
+HOST_UID=1000 HOST_GID=1000 docker compose run --rm yocto bash -c \
+  "scripts/setup_env.sh rk3588 developer && \
+   scripts/build.sh rk3588 developer core-image-minimal"
 ```
 
-### 3. Build Image
+### Profile: navonz_v1 (pinned snapshot)
+
+#### 1. Fetch pinned layers (lần đầu / khi cần refresh)
 ```bash
-HOST_UID=1000 HOST_GID=1000 docker-compose run --rm yocto bash -c "scripts/build.sh rk3588 developer core-image-minimal"
+HOST_UID=1000 HOST_GID=1000 docker compose run --rm yocto bash -c \
+  "scripts/fetch_layers_pin.sh"
 ```
+
+#### 2. Setup + Build
+```bash
+HOST_UID=1000 HOST_GID=1000 docker compose run --rm yocto bash -c \
+  "scripts/setup_env.sh rk3588 navonz_v1 && \
+   scripts/build.sh rk3588 navonz_v1 core-image-minimal"
+```
+
+Hoặc dùng wrapper:
+```bash
+HOST_UID=1000 HOST_GID=1000 docker compose run --rm yocto bash -c \
+  "scripts/build_rk3588.sh navonz_v1 core-image-minimal"
+```
+
+Manifest pin: `manifests/nanopc-t6-navonz_v1.xml`
 
 ## 📦 Available Images
 
@@ -72,7 +97,8 @@ scripts/build.sh rk3588 developer core-image-x11
 
 After a successful build, images will be located in:
 ```
-build-rk3588/tmp/deploy/images/nanopc-t6/
+build-rk3588/tmp/deploy/images/nanopc-t6/              # developer
+build-rk3588-navonz_v1/tmp/deploy/images/nanopc-t6/    # navonz_v1
 ```
 
 Key files include:

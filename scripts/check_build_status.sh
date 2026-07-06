@@ -47,7 +47,7 @@ echo ""
 # Check logs per platform
 echo "📝 Latest Build Logs (per platform):"
 LOGS_DIR="$BASE_DIR/logs"
-for platform in s905x3 rpi4 rpi0w rk3588; do
+for platform in s905x3 rpi4 rpi0w rk3588 rk3588-navonz_v1; do
     if [ -d "$LOGS_DIR" ]; then
         LATEST_LOG=$(ls -t "$LOGS_DIR"/build-${platform}-*.log 2>/dev/null | head -1)
         if [ -n "$LATEST_LOG" ] && [ -f "$LATEST_LOG" ]; then
@@ -74,7 +74,7 @@ echo ""
 
 # Check build directories and images
 echo "📦 Build Directories & Images:"
-for platform in s905x3 rpi4 rpi0w rk3588; do
+for platform in s905x3 rpi4 rpi0w rk3588 rk3588-navonz_v1; do
     BUILD_DIR="$BASE_DIR/build-${platform}"
     if [ -d "$BUILD_DIR" ]; then
         # Check if deploy/images exists

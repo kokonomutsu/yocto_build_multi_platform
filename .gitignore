@@ -4,6 +4,7 @@ build/
 
 # Yocto Layers (cloned repositories)
 layers/
+layers-pin/
 meta-*/
 
 # Downloads and Sources

@@ -14,6 +14,11 @@ Manifest files định nghĩa các repositories và revisions được sử dụ
 - **Branches**: master (latest)
 - **Use case**: Testing new features, development
 
+### `nanopc-t6-navonz_v1.xml` (RK3588 pinned snapshot)
+- **Purpose**: Reproducible NanoPC-T6 build với commit đã verify
+- **Path**: `layers-pin/` (không ảnh hưởng `layers/` kirkstone)
+- **Use case**: `scripts/setup_env.sh rk3588 navonz_v1`
+
 ## 🚀 Usage
 
 ### Initialize Repo Tool
