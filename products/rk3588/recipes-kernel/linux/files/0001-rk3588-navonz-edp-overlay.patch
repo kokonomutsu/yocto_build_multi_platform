@@ -7,19 +7,23 @@ Upstream-Status: Inappropriate [configuration]
 ---
 --- /dev/null
 +++ b/arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-navonz-edp.dtsi
-@@ -0,0 +1,97 @@
+@@ -0,0 +1,101 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 +/*
 + * Navonz RK3588 carrier + Sharp LQ134R1JW52 eDP panel overlay
 + *
-+ * Hardware (J17 control header + J13 eDP lanes):
++ * Physical interconnect (RK3588 board + BMS display board, independently wired):
++ *   Video:  J7 (TX0 combo PHY) -- LCD cable --> BMS host LCD input.
++ *           Firmware selects edp0 on hdptxphy0; J7 is an HDMI-type connector
++ *           but lane signaling is eDP, not TMDS (hdmi0 stays disabled).
++ *   Control: J13 (RK3588) -- ribbon 2x20 --> J17 (BMS); no video on J17:
 + *   HPD:        GPIO1_A0 via DP0_HPDIN_M2 (active-low, 0 = panel present)
 + *   BL enable:  GPIO1_B5 (HOST_LCD_BL_ENABLE)
 + *   BL PWM:     PWM0_M2 on GPIO1_A2
 + *   Touch I2C:  I2C3_M1 (GPIO3_B7 / GPIO3_C0) — device node deferred until i2cdetect
 + *
-+ * Display pipeline: disable HDMI TX0, route VP2 -> eDP0 (hdptxphy0).
-+ * HDMI TX1 remains available for external monitor.
++ * Display pipeline: disable HDMI TX0, route VP2 -> eDP0 (hdptxphy0 / TX0 -> J7).
++ * HDMI TX1 (J15) remains available for external monitor.
 + */
 +
 +/ {
